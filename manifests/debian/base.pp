@@ -27,7 +27,7 @@ class postgresql::debian::base inherits postgresql::base {
 
   exec {"drop initial cluster":
     command     => "pg_dropcluster --stop ${version} main",
-    onlyif      => "test \$(su -c 'psql -lx' postgres |awk '/Encoding/ {printf tolower(\$3)}') = 'sql_asciisql_asciisql_ascii'",
+    onlyif      => "test \$(sudo -u postgres psql -lx | awk '/Encoding/ {printf tolower(\$3)}') = 'sql_asciisql_asciisql_ascii'",
     timeout     => 60,
     environment => "PWD=/",
     before      => Postgresql::Cluster["main"],
